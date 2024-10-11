@@ -3,6 +3,9 @@ import React from 'react';
 const Rewards = ({ points }) => {
   let rewardMessage = '';
 
+  // デバッグ用にpointsの値を出力
+  console.log('Current points in Rewards:', points);
+
   if (points >= 20) {
     rewardMessage = 'Congrats! You have earned a new pair of cleats!';
   } else if (points >= 10) {

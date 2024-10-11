@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import CalendarScoreInput from './Components/CalendarScoreInput';
+import Rewards from './Components/Rewards';
 
 const App = () => {
-  const fetchScores = () => {
-    // 実際にはFirebaseからデータを取得する関数ですが、
-    // 現時点では仮の関数として定義しています
-    console.log('Fetching scores...');
+  const [points, setPoints] = useState(0);
+
+  // カレンダーから取得したポイントを更新するための関数
+  const updatePoints = (newPoints) => {
+    setPoints(newPoints);
   };
 
   return (
     <div>
-      <h1>サッカーポイントチャート</h1>
-      <CalendarScoreInput fetchScores={fetchScores} />
+      <h1>Soccer Point Chart</h1>
+
+      {/* ポイントに応じた報酬を表示するコンポーネント */}
+      <Rewards points={points} />
+      {/* カレンダーコンポーネントに、ポイントを更新する関数を渡す */}
+      <CalendarScoreInput updatePoints={updatePoints} />
     </div>
   );
 };

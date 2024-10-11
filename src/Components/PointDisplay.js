@@ -1,7 +1,24 @@
 import React from 'react';
 
 const PointDisplay = ({ points }) => {
-  return <h3>Current Point: {points} </h3>;
+  let message = '';
+
+  if (points >= 20) {
+    message = 'Amazing! You are doing great!';
+  } else if (points >= 10) {
+    message = 'Keep it up! Almost there!';
+  } else if (points >= 5) {
+    message = 'Nice work! Keep practicing!';
+  } else {
+    message = "Let's get started! Keep earning points!";
+  }
+
+  return (
+    <div>
+      <h3>Current Point: {points}</h3>
+      <p>{message}</p>
+    </div>
+  );
 };
 
 export default PointDisplay;

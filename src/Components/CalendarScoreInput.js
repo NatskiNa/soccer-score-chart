@@ -1,52 +1,93 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { db } from '../firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import 'react-calendar/dist/Calendar.css';
 import './CalendarScoreInput.css';
+import GradeModal from './GradeModal';
 
-const CalendarScoreInput = ({ fetchScores }) => {
+const CalendarScoreInput = ({ updatePoints }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [grade, setGrade] = useState('A');
+  const [scores, setScores] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [totalPoints, setTotalPoints] = useState(0);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!selectedDate) {
-      alert('Pick a Date');
-      return;
-    }
+  // Firestoreからスコアデータを取得し、ポイントを計算する関数
+  const fetchScores = async () => {
     try {
-      // Firestoreの「scores」コレクションに新しいスコアデータを追加
-      await addDoc(collection(db, 'scores'), {
-        date: selectedDate.toISOString(),
-        grade: grade,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+      const querySnapshot = await getDocs(collection(db, 'scores'));
+      const scoresData = {};
+      let points = 0; // initialize total points
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const dateKey = new Date(data.date).toISOString().split('T')[0];
+        scoresData[dateKey] = data.grade;
+
+        // 各スコアに基づいてポイントを計算
+        if (data.grade === 'A') {
+          points += 2;
+        } else if (data.grade === 'C') {
+          points += 0;
+        } else if (data.grade === 'F') {
+          points -= 2;
+        }
       });
-      setGrade('A'); // Reset form to initial grade'A'
-      fetchScores(); // スコアデータを再取得して表示を更新
+
+      setScores(scoresData); // 取得したデータをstateに保存
+      setTotalPoints(points); // update total points
+      updatePoints(points); // 親コンポーネントにポイントを更新
     } catch (error) {
-      console.error('An error occurred while adding the grade:', error);
+      console.error('An error occurred while receiving the score:', error);
     }
+  };
+
+  // コンポーネントの初回マウント時にスコアを取得
+  useEffect(() => {
+    fetchScores();
+  }, []);
+
+  // モーダルを開くときの処理。選択された日付をstateに保存し、モーダルを表示。
+  const openModal = (date) => {
+    setSelectedDate(date);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
     <div>
-      <h1>Daily Goal Tracker</h1>
       <h2>Add your grade</h2>
       <Calendar
-        onChange={setSelectedDate} // 日付が選択されたときに呼ばれる関数。選択された日付をstateにセット。
+        onChange={setSelectedDate}
         value={selectedDate}
+        tileContent={({ date, view }) => {
+          if (view === 'month') {
+            const dateKey = date.toISOString().split('T')[0];
+            const grade = scores[dateKey];
+            return (
+              <div onClick={() => openModal(date)} className="grade-tile">
+                {grade ? <p className="grade-display">{grade}</p> : <p>Add</p>}
+              </div>
+            );
+          }
+        }}
       />
-      <form onSubmit={handleSubmit}>
-        <select value={grade} onChange={(e) => setGrade(e.target.value)}>
-          <option value="A">A</option>
-          <option value="C">C</option>
-          <option value="F">F</option>
-        </select>
-        <button type="submit">Add Score</button>
-      </form>
+
+      {/* 合計ポイントの表示 */}
+      <div className="points-display">
+        <h3>Your current point is: {totalPoints}</h3>
+      </div>
+
+      {/* モーダルの表示 */}
+      <GradeModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        selectedDate={selectedDate}
+        onSave={fetchScores}
+      />
     </div>
   );
 };
