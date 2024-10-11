@@ -3,6 +3,7 @@ import Calendar from 'react-calendar';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import 'react-calendar/dist/Calendar.css';
+import './CalendarScoreInput.css';
 
 const CalendarScoreInput = ({ fetchScores }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
