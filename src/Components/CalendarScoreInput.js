@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -13,7 +13,7 @@ const CalendarScoreInput = ({ updatePoints, points }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Firestoreからスコアデータを取得し、ポイントを計算する関数
-  const fetchScores = useCallback(async () => {
+  const fetchScores = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'scores'));
       const scoresData = {};
@@ -30,7 +30,7 @@ const CalendarScoreInput = ({ updatePoints, points }) => {
         } else if (data.grade === 'C') {
           totalPoints += 0;
         } else if (data.grade === 'F') {
-          totalPoints -= 2;
+          totalPoints -= 1;
         }
       });
 
@@ -39,12 +39,12 @@ const CalendarScoreInput = ({ updatePoints, points }) => {
     } catch (error) {
       console.error('An error occurred while receiving the score:', error);
     }
-  }, [updatePoints]); // useCallbackで依存配列にupdatePointsを追加
+  }; // useCallbackで依存配列にupdatePointsを追加
 
   // コンポーネントの初回マウント時にスコアを取得
   useEffect(() => {
     fetchScores();
-  }, [fetchScores]); // fetchScores を依存配列に追加
+  }, []); // fetchScores を依存配列に追加
 
   // モーダルを開くときの処理。選択された日付をstateに保存し、モーダルを表示。
   const openModal = (date) => {

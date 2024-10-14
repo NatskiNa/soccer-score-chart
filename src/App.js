@@ -16,6 +16,7 @@ const App = () => {
   // ポイントを使用した場合の処理
   const handleUsePoints = (usedPoints) => {
     const updatedPoints = points - usedPoints;
+
     console.log('Points after using:', updatedPoints); // デバッグ用
     setPoints(updatedPoints);
   };
@@ -35,8 +36,7 @@ const App = () => {
       {/* カレンダーでポイントを管理 */}
       <CalendarScoreInput updatePoints={updatePoints} points={points} />
 
-      <button onClick={() => setIsUsePointModalOpen(true)}>Use Points</button>
-
+      {/* ポイントを使用するためのモーダル */}
       <UsePointModal
         isOpen={isUsePointModalOpen}
         onClose={() => setIsUsePointModalOpen(false)}

@@ -16,6 +16,7 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
   // 報酬を選択する処理
   const handleSelectedReward = (reward) => {
     setSelectedReward(reward);
+    setErrorMessage('');
   };
 
   // Confirm using the points
@@ -51,11 +52,11 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
       {selectedReward && (
         <div>
           <p>
-            Are you sure you want to use {selectedReward.cost} points for a{' '}
+            Are you sure you want to use {selectedReward.cost} points for a
             {selectedReward.name}?
-            <button onClick={handleConfirmUse}>Yes</button>
-            <button onClick={onClose}>Cancel</button>
           </p>
+          <button onClick={handleConfirmUse}>Yes</button>
+          <button onClick={onClose}>Cancel</button>
         </div>
       )}
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
