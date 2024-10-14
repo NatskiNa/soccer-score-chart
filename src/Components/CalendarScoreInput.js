@@ -6,18 +6,18 @@ import 'react-calendar/dist/Calendar.css';
 import './CalendarScoreInput.css';
 import GradeModal from './GradeModal';
 
-const CalendarScoreInput = ({ updatePoints }) => {
+const CalendarScoreInput = ({ updatePoints, points }) => {
+  console.log('Current points in CalendarScoreInput:', points);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [scores, setScores] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [totalPoints, setTotalPoints] = useState(0);
 
   // Firestoreからスコアデータを取得し、ポイントを計算する関数
   const fetchScores = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'scores'));
       const scoresData = {};
-      let points = 0; // initialize total points
+      let totalPoints = 0; // initialize total points
 
       querySnapshot.forEach((doc) => {
         const data = doc.data();
@@ -26,17 +26,16 @@ const CalendarScoreInput = ({ updatePoints }) => {
 
         // 各スコアに基づいてポイントを計算
         if (data.grade === 'A') {
-          points += 2;
+          totalPoints += 1;
         } else if (data.grade === 'C') {
-          points += 0;
+          totalPoints += 0;
         } else if (data.grade === 'F') {
-          points -= 2;
+          totalPoints -= 1;
         }
       });
 
       setScores(scoresData); // 取得したデータをstateに保存
-      setTotalPoints(points); // update total points
-      updatePoints(points); // 親コンポーネントにポイントを更新
+      updatePoints(totalPoints); // 親コンポーネントにポイントを更新
     } catch (error) {
       console.error('An error occurred while receiving the score:', error);
     }
@@ -78,7 +77,7 @@ const CalendarScoreInput = ({ updatePoints }) => {
 
       {/* 合計ポイントの表示 */}
       <div className="points-display">
-        <h3>Your current point is: {totalPoints}</h3>
+        <h3>Your current point is: {points}</h3>
       </div>
 
       {/* モーダルの表示 */}

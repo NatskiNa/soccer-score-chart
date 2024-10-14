@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Rewards = ({ points }) => {
+const Rewards = ({ points, onUsePointsClick }) => {
   let rewardMessage = '';
 
   // デバッグ用にpointsの値を出力
@@ -21,6 +21,10 @@ const Rewards = ({ points }) => {
     <div>
       <h2>Your Rewards</h2>
       <p>{rewardMessage}</p>
+
+      <button onClick={onUsePointsClick} disabled={points < 5}>
+        Use Points
+      </button>
     </div>
   );
 };

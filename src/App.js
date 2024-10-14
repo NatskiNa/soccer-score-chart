@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import CalendarScoreInput from './Components/CalendarScoreInput';
 import Rewards from './Components/Rewards';
+import UsePointModal from './Components/UsePointModal';
 
 const App = () => {
   const [points, setPoints] = useState(0);
+  const [isUsePointModalOpen, setIsUsePointModalOpen] = useState(false);
 
-  // カレンダーから取得したポイントを更新するための関数
+  // ポイントを更新するための関数
   const updatePoints = (newPoints) => {
+    console.log('Updating points:', newPoints);
     setPoints(newPoints);
+  };
+
+  // ポイントを使用した場合の処理
+  const handleUsePoints = (usedPoints) => {
+    const updatedPoints = points - usedPoints;
+    console.log('Points after using:', updatedPoints); // デバッグ用
+    setPoints(updatedPoints);
+  };
+
+  // "Use Points"ボタンがクリックされたときにモーダルを開く
+  const openUsePointsModal = () => {
+    setIsUsePointModalOpen(true);
   };
 
   return (
@@ -15,9 +30,19 @@ const App = () => {
       <h1>Soccer Point Chart</h1>
 
       {/* ポイントに応じた報酬を表示するコンポーネント */}
-      <Rewards points={points} />
-      {/* カレンダーコンポーネントに、ポイントを更新する関数を渡す */}
-      <CalendarScoreInput updatePoints={updatePoints} />
+      <Rewards points={points} onUsePointsClick={openUsePointsModal} />
+
+      {/* カレンダーでポイントを管理 */}
+      <CalendarScoreInput updatePoints={updatePoints} points={points} />
+
+      <button onClick={() => setIsUsePointModalOpen(true)}>Use Points</button>
+
+      <UsePointModal
+        isOpen={isUsePointModalOpen}
+        onClose={() => setIsUsePointModalOpen(false)}
+        points={points}
+        onUsePoints={handleUsePoints}
+      />
     </div>
   );
 };

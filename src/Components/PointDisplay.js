@@ -1,27 +1,27 @@
-import React from 'react';
+// import React from 'react';
 
-const PointDisplay = ({ points }) => {
-  let message = '';
+// const PointDisplay = ({ points }) => {
+//   let message = '';
 
-  if (points >= 20) {
-    message = 'Amazing! You are doing great!';
-  } else if (points >= 10) {
-    message = 'Keep it up! Almost there!';
-  } else if (points >= 5) {
-    message = 'Nice work! Keep practicing!';
-  } else {
-    message = "Let's get started! Keep earning points!";
-  }
+//   if (points >= 20) {
+//     message = 'Amazing! You are doing great!';
+//   } else if (points >= 10) {
+//     message = 'Keep it up! Almost there!';
+//   } else if (points >= 5) {
+//     message = 'Nice work! Keep practicing!';
+//   } else {
+//     message = "Let's get started! Keep earning points!";
+//   }
 
-  return (
-    <div>
-      <h3>Current Point: {points}</h3>
-      <p>{message}</p>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <h3>Current Point: {points}</h3>
+//       <p>{message}</p>
+//     </div>
+//   );
+// };
 
-export default PointDisplay;
+// export default PointDisplay;
 
 // 役割:
 // 現在の合計ポイントを視覚的に表示。
