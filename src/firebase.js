@@ -5,12 +5,12 @@ import { getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyCJR8yVgBJjRf-I9vIvyiNp-jiR5FodcyM',
-  authDomain: 'soccer-point-chart.firebaseapp.com',
-  projectId: 'soccer-point-chart',
-  storageBucket: 'soccer-point-chart.appspot.com',
-  messagingSenderId: '633998353730',
-  appId: '1:633998353730:web:4af1f933a3fd35a25254db',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
