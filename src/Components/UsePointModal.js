@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
@@ -9,9 +9,17 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
 
   const rewardOptions = [
     { name: 'Happy Lemon treat', cost: 5 },
-    { name: 'Soccer Ball or a pack of soccer cards', cost: 10 },
-    { name: 'New pare of cleats', cost: 20 },
+    { name: 'Soccer Ball or a Pack of Soccer Cards', cost: 10 },
+    { name: 'New Pair of Cleats', cost: 20 },
   ];
+
+  // モーダルの開閉に応じて状態をリセット
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedReward(null);
+      setErrorMessage('');
+    }
+  }, [isOpen]);
 
   // 報酬を選択する処理
   const handleSelectedReward = (reward) => {
@@ -19,10 +27,10 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
     setErrorMessage('');
   };
 
-  // Confirm using the points
+  // ポイントを使用する処理
   const handleConfirmUse = () => {
     if (selectedReward && points >= selectedReward.cost) {
-      onUsePoints(selectedReward.cost);
+      onUsePoints(selectedReward.cost); // Firestoreに保存する関数を呼び出す
       setSelectedReward(null);
       onClose();
     } else {
@@ -32,10 +40,17 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
     }
   };
 
+  // モーダルを閉じる処理
+  const handleClose = () => {
+    setSelectedReward(null);
+    setErrorMessage('');
+    onClose();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={handleClose}
       contentLabel="Use Your Points"
       className="modal"
       overlayClassName="modal-overlay"
@@ -43,7 +58,10 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
       <h2>Which reward would you like?</h2>
       {rewardOptions.map((reward) => (
         <div key={reward.name}>
-          <button onClick={() => handleSelectedReward(reward)}>
+          <button
+            onClick={() => handleSelectedReward(reward)}
+            disabled={points < reward.cost}
+          >
             {reward.name} - {reward.cost} points
           </button>
         </div>
@@ -52,11 +70,11 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
       {selectedReward && (
         <div>
           <p>
-            Are you sure you want to use {selectedReward.cost} points for a
+            Are you sure you want to use {selectedReward.cost} points for a{' '}
             {selectedReward.name}?
           </p>
           <button onClick={handleConfirmUse}>Yes</button>
-          <button onClick={onClose}>Cancel</button>
+          <button onClick={handleClose}>Cancel</button>
         </div>
       )}
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}

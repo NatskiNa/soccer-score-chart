@@ -1,28 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { db } from '../firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { calTotalPoints } from '../utils';
+import { doc, setDoc, getDoc, getDocs, collection } from 'firebase/firestore';
 import './GradeModal.css';
 
 Modal.setAppElement('#root');
 
-const GradeModal = ({ isOpen, onClose, selectedDate, onSave }) => {
+const GradeModal = ({
+  isOpen,
+  onClose,
+  selectedDate,
+  onSave,
+  existingGrade,
+  isEditMode,
+  uid,
+}) => {
+  console.log('Received uid in GradeModal:', uid);
   const [grade, setGrade] = useState('A');
+
+  // モーダルが開かれたときに既存のグレードを設定
+  useEffect(() => {
+    if (isOpen) {
+      if (existingGrade) {
+        setGrade(existingGrade);
+      } else {
+        setGrade('A');
+      }
+    }
+  }, [isOpen, existingGrade]);
 
   // スコアをFirestoreに保存する処理
   const handleSaveGrade = async () => {
     try {
-      await addDoc(collection(db, 'scores'), {
+      const dateKey = selectedDate.toISOString().split('T')[0];
+      // 修正ポイント：ユーザーごとの scores コレクションを参照
+      const scoreDocRef = doc(db, 'users', uid, 'scores', dateKey);
+
+      // 前回のグレードを取得
+      const scoreDoc = await getDoc(scoreDocRef);
+      let previousGrade = null;
+
+      if (scoreDoc.exists()) {
+        previousGrade = scoreDoc.data().grade;
+      }
+
+      console.log('Previous Grade:', previousGrade);
+      console.log('New Grade:', grade);
+
+      // 新しいグレードを保存
+      await setDoc(scoreDocRef, {
         date: selectedDate.toISOString(),
         grade: grade,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
-      setGrade('A');
-      onClose();
+      console.log('New grade saved to Firestore.');
+
+      // スコアを再取得
+      const scoresData = {};
+      const scoresCollection = collection(db, 'users', uid, 'scores');
+      const querySnapshot = await getDocs(scoresCollection);
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const dateKey = new Date(data.date).toISOString().split('T')[0];
+        scoresData[dateKey] = data.grade;
+      });
+
+      // 総ポイントを再計算
+      const totalPoints = calTotalPoints(scoresData);
+
+      // Firestoreのユーザードキュメントを更新
+      const userDocRef = doc(db, 'users', uid);
+      await setDoc(userDocRef, { count: totalPoints }, { merge: true });
+      console.log('Total points recalculated and updated:', totalPoints);
+
+      // onSaveを呼び出す
       onSave();
+
+      // モーダルを閉じる
+      onClose();
     } catch (error) {
-      console.error('An error occurred while adding the score:', error);
+      console.error('An error occurred while updating the grade:', error);
     }
   };
 
@@ -30,11 +89,11 @@ const GradeModal = ({ isOpen, onClose, selectedDate, onSave }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      contentLabel="Add Grade"
+      contentLabel={isEditMode ? 'Edit Grade' : 'Add Grade'}
       className="modal"
       overlayClassName="modal-overlay"
     >
-      <h2>Select Today's Grade</h2>
+      <h2>{isEditMode ? 'Edit Grade' : 'Add Grade'}</h2>
       <select value={grade} onChange={(e) => setGrade(e.target.value)}>
         <option value="A">A</option>
         <option value="C">C</option>
