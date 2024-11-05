@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react';
 import CalendarScoreInput from './Components/CalendarScoreInput';
 import Rewards from './Components/Rewards';
 import UsePointModal from './Components/UsePointModal';
-import { doc, setDoc, onSnapshot } from 'firebase/firestore';
+import PointHistory from './Components/PointHistory';
+import ResetButton from './Components/ResetButton';
+import {
+  doc,
+  setDoc,
+  onSnapshot,
+  collection,
+  addDoc,
+} from 'firebase/firestore';
 import { db } from './firebase';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 
@@ -10,6 +18,8 @@ const App = () => {
   const [count, setCount] = useState(0);
   const [isUsePointModalOpen, setIsUsePointModalOpen] = useState(false);
   const [uid, setUid] = useState(null);
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [usedPoints, setUsedPoints] = useState(0);
 
   // Firebase Authenticationでユーザーを認証
   useEffect(() => {
@@ -26,7 +36,7 @@ const App = () => {
       });
   }, []);
 
-  // Firestoreから初期カウントを取得し、リアルタイムで監視
+  // Firestoreから初期データを取得し、リアルタイムで監視
   useEffect(() => {
     if (uid) {
       const userDocRef = doc(db, 'users', uid);
@@ -34,13 +44,24 @@ const App = () => {
       const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          setCount(userData.count || 0);
-          console.log('Real-time count update:', userData.count || 0);
+          const total = userData.totalPoints || 0;
+          const used = userData.usedPoints || 0;
+          const availablePoints = total - used;
+
+          setTotalPoints(total);
+          setUsedPoints(used);
+          setCount(availablePoints);
+
+          console.log('Real-time totalPoints:', total);
+          console.log('Real-time usedPoints:', used);
+          console.log('Real-time count (availablePoints):', availablePoints);
         } else {
-          // ドキュメントが存在しない場合、0で初期化
-          setDoc(userDocRef, { count: 0 });
+          // ドキュメントが存在しない場合、初期化
+          setDoc(userDocRef, { totalPoints: 0, usedPoints: 0 });
+          setTotalPoints(0);
+          setUsedPoints(0);
           setCount(0);
-          console.log('Initialized count to 0 in Firestore');
+          console.log('Initialized user document in Firestore');
         }
       });
 
@@ -49,22 +70,34 @@ const App = () => {
   }, [uid]);
 
   // ポイントを使用した場合の処理
-  const handleUsePoints = async (usedCount) => {
-    const updatedCount = count - usedCount;
-
-    if (updatedCount < 0) {
+  const handleUsePoints = async (usedCount, rewardName) => {
+    if (count < usedCount) {
       console.log('Not enough points to use');
       return;
     }
 
-    console.log('Count after using:', updatedCount);
-
     try {
       const userDocRef = doc(db, 'users', uid);
-      await setDoc(userDocRef, { count: updatedCount }, { merge: true });
-      console.log('Firestore updated with count:', updatedCount);
+
+      // usedPoints を更新
+      const newUsedPoints = usedPoints + usedCount;
+      await setDoc(userDocRef, { usedPoints: newUsedPoints }, { merge: true });
+      console.log('Firestore updated with usedPoints:', newUsedPoints);
+
+      // ローカルステートも更新
+      setUsedPoints(newUsedPoints);
+      setCount(totalPoints - newUsedPoints);
+
+      // ポイント使用履歴を保存
+      const historyCollectionRef = collection(db, 'users', uid, 'pointHistory');
+      await addDoc(historyCollectionRef, {
+        rewardName: rewardName,
+        usedPoints: usedCount,
+        date: new Date().toISOString(),
+      });
+      console.log('Point usage history saved.');
     } catch (error) {
-      console.error('Failed to update count in Firebase:', error);
+      console.error('Failed to update usedPoints in Firebase:', error);
     }
   };
 
@@ -86,6 +119,8 @@ const App = () => {
             points={count}
             onUsePoints={handleUsePoints}
           />
+          <PointHistory uid={uid} />
+          <ResetButton uid={uid} />
         </>
       ) : (
         <p>Loading...</p>
