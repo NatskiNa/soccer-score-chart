@@ -30,7 +30,7 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
   // ポイントを使用する処理
   const handleConfirmUse = () => {
     if (selectedReward && points >= selectedReward.cost) {
-      onUsePoints(selectedReward.cost); // Firestoreに保存する関数を呼び出す
+      onUsePoints(selectedReward.cost, selectedReward.name);
       setSelectedReward(null);
       onClose();
     } else {
