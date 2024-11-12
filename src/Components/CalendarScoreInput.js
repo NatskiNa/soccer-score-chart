@@ -12,7 +12,7 @@ const CalendarScoreInput = ({ count, uid }) => {
   const [selectedGrade, setSelectedGrade] = useState(null);
   const [scores, setScores] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [totalPoints, setTotalPoints] = useState(0);
+  // const [totalPoints, setTotalPoints] = useState(0);
 
   // Firestoreからスコアデータを取得し、表示用に保存する関数
   const fetchScores = async () => {
@@ -32,7 +32,7 @@ const CalendarScoreInput = ({ count, uid }) => {
       // Calculate total points and update State
 
       const points = calTotalPoints(scoresData);
-      setTotalPoints(points);
+      // setTotalPoints(points);
       console.log('Total Points:', points);
     } catch (error) {
       console.error('Error fetching scores:', error);
