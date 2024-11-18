@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -24,7 +24,7 @@ const CalendarScoreInput = ({ count, uid }) => {
   };
 
   // Firestoreからスコアデータを取得し、表示用に保存する関数
-  const fetchScores = async () => {
+  const fetchScores = useCallback(async () => {
     try {
       const scoresCollection = collection(db, 'users', uid, 'scores');
       const querySnapshot = await getDocs(scoresCollection);
@@ -39,21 +39,20 @@ const CalendarScoreInput = ({ count, uid }) => {
       setScores(scoresData); // ステートを更新
 
       // Calculate total points and update State
-
       const points = calTotalPoints(scoresData);
       // setTotalPoints(points);
       console.log('Total Points:', points);
     } catch (error) {
       console.error('Error fetching scores:', error);
     }
-  };
+  }, [uid]);
 
   // コンポーネントのマウント時にスコアを取得
   useEffect(() => {
     if (uid) {
       fetchScores();
     }
-  }, [uid]);
+  }, [uid, fetchScores]);
 
   // モーダルを開くときの処理。選択された日付とグレードをstateに保存し、モーダルを表示
   const openModal = (date) => {
@@ -110,7 +109,7 @@ const CalendarScoreInput = ({ count, uid }) => {
         isEditMode={selectedGrade !== null}
         uid={uid}
       />
-      <button onClick={openHistoryModal}>Show Point Usage History</button>
+      <button onClick={openHistoryModal}>Show Point UsageHistory</button>
       <PointHistoryModal
         isOpen={isHistoryModalOpen}
         onClose={closeHistoryModal}
