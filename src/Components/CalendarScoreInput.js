@@ -5,6 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import 'react-calendar/dist/Calendar.css';
 import './CalendarScoreInput.css';
 import GradeModal from './GradeModal';
+import PointHistoryModal from './PointHistoryModal';
 import { calTotalPoints } from '../utils';
 
 const CalendarScoreInput = ({ count, uid }) => {
@@ -12,7 +13,15 @@ const CalendarScoreInput = ({ count, uid }) => {
   const [selectedGrade, setSelectedGrade] = useState(null);
   const [scores, setScores] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [totalPoints, setTotalPoints] = useState(0);
+  const [isHistoryModalOpen, setIsHistoryModal] = useState(false);
+
+  const openHistoryModal = () => {
+    setIsHistoryModal(true);
+  };
+
+  const closeHistoryModal = () => {
+    setIsHistoryModal(false);
+  };
 
   // Firestoreからスコアデータを取得し、表示用に保存する関数
   const fetchScores = async () => {
@@ -99,6 +108,12 @@ const CalendarScoreInput = ({ count, uid }) => {
         onSave={handleSaveGrade}
         existingGrade={selectedGrade}
         isEditMode={selectedGrade !== null}
+        uid={uid}
+      />
+      <button onClick={openHistoryModal}>Show Point Usage History</button>
+      <PointHistoryModal
+        isOpen={isHistoryModalOpen}
+        onClose={closeHistoryModal}
         uid={uid}
       />
     </div>

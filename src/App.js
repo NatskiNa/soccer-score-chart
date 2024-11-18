@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import CalendarScoreInput from './Components/CalendarScoreInput';
 import Rewards from './Components/Rewards';
 import UsePointModal from './Components/UsePointModal';
-import PointHistory from './Components/PointHistory';
 import ResetButton from './Components/ResetButton';
 import {
   doc,
@@ -119,7 +118,7 @@ const App = () => {
             points={count}
             onUsePoints={handleUsePoints}
           />
-          <PointHistory uid={uid} />
+
           <ResetButton uid={uid} />
         </>
       ) : (

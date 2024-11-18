@@ -1,9 +1,12 @@
 // PointHistory.js
 import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import { db } from '../firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
-const PointHistory = ({ uid }) => {
+Modal.setAppElement('#root');
+
+const PointHistoryModal = ({ uid, isOpen, onClose }) => {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
@@ -28,7 +31,13 @@ const PointHistory = ({ uid }) => {
   }, [uid]);
 
   return (
-    <div>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      contentLabel="Point Usage History"
+      className="modal"
+      overlayClassName="modal-overlay"
+    >
       <h2>Point Usage History</h2>
       {history.length > 0 ? (
         <ul>
@@ -42,8 +51,9 @@ const PointHistory = ({ uid }) => {
       ) : (
         <p>No point usage history available.</p>
       )}
-    </div>
+      <button onClick={onClose}>Close</button>
+    </Modal>
   );
 };
 
-export default PointHistory;
+export default PointHistoryModal;
