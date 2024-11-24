@@ -3,6 +3,7 @@ import CalendarScoreInput from './Components/CalendarScoreInput';
 import Rewards from './Components/Rewards';
 import UsePointModal from './Components/UsePointModal';
 import ResetButton from './Components/ResetButton';
+import './App.css';
 import {
   doc,
   setDoc,
@@ -106,10 +107,10 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="page-container">
       {uid ? (
         <>
-          <h1>Soccer Point Chart</h1>
+          <h1>⚽️ POINT CHART ⚽️</h1>
           <Rewards points={count} onUsePointsClick={openUsePointsModal} />
           <CalendarScoreInput count={count} uid={uid} />
           <UsePointModal

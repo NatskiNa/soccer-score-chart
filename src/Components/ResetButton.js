@@ -1,4 +1,5 @@
 import React from 'react';
+import '../App.css';
 import { db } from '../firebase';
 import {
   collection,
@@ -45,7 +46,11 @@ const ResetButton = ({ uid }) => {
     }
   };
 
-  return <button onClick={handleReset}>データをリセット</button>;
+  return (
+    <button className="reset-btn" onClick={handleReset}>
+      Reset grade data
+    </button>
+  );
 };
 
 export default ResetButton;

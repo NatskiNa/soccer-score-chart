@@ -1,0 +1,55 @@
+.rewards-section {
+  margin-top: 25px;
+  text-align: center;
+  background-color: #ddd;
+  border-radius: 10px;
+  padding: 5px 15px 25px 15px;
+}
+
+.rewards-section h2 {
+  font-size: 20px;
+  color: midnightblue;
+  margin-bottom: 0px;
+}
+
+.rewards-section p {
+  font-size: 14px;
+  color: midnightblue;
+}
+
+.usePoints-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+@media (min-width: 769px) {
+  .rewards-section {
+    margin-top: 40px;
+    max-width: 450px;
+    padding: 5px 20px 30px 20px;
+    margin-bottom: 20px;
+  }
+
+  .rewards-section h2 {
+    font-size: 24px;
+  }
+
+  .rewards-section p {
+    font-size: 16px;
+  }
+
+  .usePoints-btn {
+    background-color: green;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+}

@@ -1,3 +1,10 @@
+.calendar-section {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .react-calendar {
   width: 100%;
   max-width: 700px;
@@ -62,8 +69,41 @@
   color: black;
 }
 
+.points-display {
+}
+.point-history-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.point-history-btn:hover {
+  background-color: green;
+  transform: scale(1.07);
+}
+
+h3 {
+  font-size: 20px;
+  color: black;
+  margin-bottom: 10px;
+}
+
 @media (min-width: 769px) {
   .react-calendar__tile {
     height: 110px;
+  }
+
+  .point-history-btn {
+    background-color: green;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
   }
 }

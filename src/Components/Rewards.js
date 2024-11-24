@@ -1,4 +1,5 @@
 import React from 'react';
+import './Rewards.css';
 
 const Rewards = ({ points, onUsePointsClick }) => {
   let rewardMessage = '';
@@ -18,11 +19,15 @@ const Rewards = ({ points, onUsePointsClick }) => {
   }
 
   return (
-    <div>
+    <div className="rewards-section">
       <h2>Your Rewards</h2>
       <p>{rewardMessage}</p>
 
-      <button onClick={onUsePointsClick} disabled={points < 5}>
+      <button
+        className="usePoints-btn"
+        onClick={onUsePointsClick}
+        disabled={points < 5}
+      >
         Use Points
       </button>
     </div>

@@ -76,7 +76,7 @@ const CalendarScoreInput = ({ count, uid }) => {
   };
 
   return (
-    <div>
+    <div className="calendar-section">
       <h2>Add or Edit your grade</h2>
       <Calendar
         onClickDay={openModal}
@@ -109,7 +109,9 @@ const CalendarScoreInput = ({ count, uid }) => {
         isEditMode={selectedGrade !== null}
         uid={uid}
       />
-      <button onClick={openHistoryModal}>Show Point UsageHistory</button>
+      <button className="point-history-btn" onClick={openHistoryModal}>
+        Point Usage History
+      </button>
       <PointHistoryModal
         isOpen={isHistoryModalOpen}
         onClose={closeHistoryModal}
