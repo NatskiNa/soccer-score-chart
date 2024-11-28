@@ -13,7 +13,7 @@ const ResetButton = ({ uid }) => {
   const handleReset = async () => {
     if (
       window.confirm(
-        '全てのデータをリセットしますか？この操作は取り消せません。'
+        'Are you sure of resetting all the data? This action cannot be undone.'
       )
     ) {
       try {

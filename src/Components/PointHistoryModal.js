@@ -1,5 +1,5 @@
-// PointHistory.js
 import React, { useEffect, useState } from 'react';
+import './PointHistoryModal.css';
 import Modal from 'react-modal';
 import { db } from '../firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
@@ -35,7 +35,7 @@ const PointHistoryModal = ({ uid, isOpen, onClose }) => {
       isOpen={isOpen}
       onRequestClose={onClose}
       contentLabel="Point Usage History"
-      className="modal"
+      className="history-modal"
       overlayClassName="modal-overlay"
     >
       <h2>Point Usage History</h2>

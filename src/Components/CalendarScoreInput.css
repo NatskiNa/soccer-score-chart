@@ -5,6 +5,12 @@
   align-items: center;
 }
 
+.calendar-section h2 {
+  font-size: 24px;
+  color: whitesmoke;
+  margin-bottom: 10px;
+}
+
 .react-calendar {
   width: 100%;
   max-width: 700px;
@@ -69,25 +75,31 @@
   color: black;
 }
 
-.points-display {
+.points-display h3 {
+  font-size: 24px;
+  color: whitesmoke;
+  margin-bottom: 10px;
 }
+
 .point-history-btn {
   background-color: green;
   color: white;
   border: none;
   border-radius: 20px;
-  padding: 8px 15px;
-  font-size: 12px;
+  padding: 10px;
+  width: 160px;
+  font-size: 14px;
   cursor: pointer;
   margin-top: 10px;
 }
 
 .point-history-btn:hover {
-  background-color: green;
+  background-color: rgb(1, 88, 1);
   transform: scale(1.07);
 }
 
 h3 {
+  margin-top: 10px;
   font-size: 20px;
   color: black;
   margin-bottom: 10px;
@@ -99,11 +111,9 @@ h3 {
   }
 
   .point-history-btn {
-    background-color: green;
-    border-radius: 20px;
-    padding: 10px 20px;
+    border-radius: 30px;
+    width: 220px;
+    padding: 15px;
     font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
   }
 }

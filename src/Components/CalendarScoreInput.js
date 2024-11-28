@@ -77,7 +77,7 @@ const CalendarScoreInput = ({ count, uid }) => {
 
   return (
     <div className="calendar-section">
-      <h2>Add or Edit your grade</h2>
+      <h2>Log Your Day on the Field!</h2>
       <Calendar
         onClickDay={openModal}
         tileContent={({ date, view }) => {

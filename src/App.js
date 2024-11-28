@@ -110,7 +110,10 @@ const App = () => {
     <div className="page-container">
       {uid ? (
         <>
-          <h1>⚽️ POINT CHART ⚽️</h1>
+          <h1>
+            <span class="emoji">⚽️</span> POINT CHART{' '}
+            <span class="emoji">⚽️</span>
+          </h1>
           <Rewards points={count} onUsePointsClick={openUsePointsModal} />
           <CalendarScoreInput count={count} uid={uid} />
           <UsePointModal

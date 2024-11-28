@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import './UsePointModal.css';
 
 Modal.setAppElement('#root');
 
@@ -13,7 +14,7 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
     { name: 'New Pair of Cleats', cost: 20 },
   ];
 
-  // モーダルの開閉に応じて状態をリセット
+  // Resetting State Based on Modal Open/Close Status
   useEffect(() => {
     if (!isOpen) {
       setSelectedReward(null);
@@ -21,13 +22,13 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
     }
   }, [isOpen]);
 
-  // 報酬を選択する処理
+  // Select reward
   const handleSelectedReward = (reward) => {
     setSelectedReward(reward);
     setErrorMessage('');
   };
 
-  // ポイントを使用する処理
+  // Point Redemption Logic
   const handleConfirmUse = () => {
     if (selectedReward && points >= selectedReward.cost) {
       onUsePoints(selectedReward.cost, selectedReward.name);
@@ -40,7 +41,7 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
     }
   };
 
-  // モーダルを閉じる処理
+  // Close modal
   const handleClose = () => {
     setSelectedReward(null);
     setErrorMessage('');
@@ -52,13 +53,14 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
       isOpen={isOpen}
       onRequestClose={handleClose}
       contentLabel="Use Your Points"
-      className="modal"
+      className="reward-modal"
       overlayClassName="modal-overlay"
     >
       <h2>Which reward would you like?</h2>
       {rewardOptions.map((reward) => (
         <div key={reward.name}>
           <button
+            className="reward-button"
             onClick={() => handleSelectedReward(reward)}
             disabled={points < reward.cost}
           >
@@ -68,7 +70,7 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
       ))}
 
       {selectedReward && (
-        <div>
+        <div className="reward-confirm">
           <p>
             Are you sure you want to use {selectedReward.cost} points for a{' '}
             {selectedReward.name}?

@@ -1,4 +1,4 @@
-.modal-content {
+.reward-modal {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -6,9 +6,8 @@
   background: white;
   padding: 20px;
   border-radius: 8px;
-  max-width: 90%;
-  width: 300px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 80%;
+  text-align: center;
 }
 
 .modal-overlay {
@@ -17,8 +16,67 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
+}
+
+.reward-button {
+  width: 300px;
+  padding: 12px 20px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  background: rgb(155, 155, 155);
+  transition: background-color 0.3s ease;
+}
+
+.reward-button:hover {
+  background-color: tomato;
+  transform: scale(1.05);
+}
+
+.reward-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.reward-modal h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.reward-confirm p {
+  font-size: 16px;
+  color: tomato;
+}
+
+.reward-confirm button {
+  width: 100px;
+  padding: 12px 20px;
+  margin: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  background: #bddce9;
+  transition: background-color 0.3s ease;
+}
+
+.reward-confirm button:hover {
+  background-color: tomato;
+  transform: scale(1.08);
+}
+
+@media (min-width: 769px) {
 }
