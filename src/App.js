@@ -4,6 +4,9 @@ import Rewards from './Components/Rewards';
 import UsePointModal from './Components/UsePointModal';
 import ResetButton from './Components/ResetButton';
 import './App.css';
+import Confetti from 'react-confetti';
+import { Howl } from 'howler';
+import rewardSound from './assets/cheerSound.mp3';
 import {
   doc,
   setDoc,
@@ -20,6 +23,7 @@ const App = () => {
   const [uid, setUid] = useState(null);
   const [totalPoints, setTotalPoints] = useState(0);
   const [usedPoints, setUsedPoints] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   // Firebase Authenticationでユーザーを認証
   useEffect(() => {
@@ -39,6 +43,10 @@ const App = () => {
   // Firestoreから初期データを取得し、リアルタイムで監視
   useEffect(() => {
     if (uid) {
+      const sound = new Howl({
+        src: [rewardSound],
+      });
+
       const userDocRef = doc(db, 'users', uid);
 
       const unsubscribe = onSnapshot(userDocRef, (docSnapshot) => {
@@ -55,6 +63,13 @@ const App = () => {
           console.log('Real-time totalPoints:', total);
           console.log('Real-time usedPoints:', used);
           console.log('Real-time count (availablePoints):', availablePoints);
+
+          // ポイントが5, 10, 20に達したときに効果音と紙吹雪を表示
+          if ([5, 10, 20].includes(availablePoints)) {
+            sound.play();
+            setShowConfetti(true);
+            setTimeout(() => setShowConfetti(false), 5000); // 5秒後に紙吹雪を非表示
+          }
         } else {
           // ドキュメントが存在しない場合、初期化
           setDoc(userDocRef, { totalPoints: 0, usedPoints: 0 });
@@ -124,6 +139,7 @@ const App = () => {
           />
 
           <ResetButton uid={uid} />
+          {showConfetti && <Confetti />}
         </>
       ) : (
         <p>Loading...</p>
