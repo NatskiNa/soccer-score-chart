@@ -90,18 +90,29 @@ const GradeModal = ({
       isOpen={isOpen}
       onRequestClose={onClose}
       contentLabel={isEditMode ? 'Edit Grade' : 'Add Grade'}
-      className="modal"
+      className="grade-modal"
       overlayClassName="modal-overlay"
     >
-      <h2>{isEditMode ? 'Edit Grade' : 'Add Grade'}</h2>
-      <select value={grade} onChange={(e) => setGrade(e.target.value)}>
-        <option value="A">A</option>
-        <option value="C">C</option>
-        <option value="F">F</option>
-        <option value="Pending">Pending</option>
-      </select>
-      <button onClick={handleSaveGrade}>Save</button>
-      <button onClick={onClose}>Cancel</button>
+      <div className="grade-modal-content">
+        <h2>{isEditMode ? 'Edit Grade' : 'Add Grade'}</h2>
+        <div className="grade-select-container">
+          <label htmlFor="grade-select" className="grade-label">
+            Choose Grade{' '}
+          </label>
+          <select
+            className="grade-select"
+            value={grade}
+            onChange={(e) => setGrade(e.target.value)}
+          >
+            <option value="A">A</option>
+            <option value="C">C</option>
+            <option value="F">F</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
+        <button onClick={onClose}>Cancel</button>
+        <button onClick={handleSaveGrade}>Save</button>
+      </div>
     </Modal>
   );
 };

@@ -1,24 +1,73 @@
-.modal {
+.grade-modal {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
+  background-color: white;
   border-radius: 8px;
-  max-width: 90%;
-  width: 300px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 80%;
+  padding: 20px;
 }
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.grade-modal-content {
+  text-align: center;
+}
+
+.grade-modal-content h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.grade-select-container {
+  margin-bottom: 20px;
+}
+
+.grade-label {
+  font-size: 16px;
+  color: black;
+}
+
+.grade-select {
+  width: 180px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: box-shadow 0.3s ease;
+}
+
+.grade-select:focus {
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.grade-modal-content button {
+  width: 100px;
+  padding: 12px 20px;
+  margin: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  background: #bddce9;
+  transition: background-color 0.3s ease;
+}
+
+.grade-modal-content button:hover {
+  background-color: tomato;
+  transform: scale(1.08);
+}
+
+@media (min-width: 769px) {
 }

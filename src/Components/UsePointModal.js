@@ -75,8 +75,8 @@ const UsePointModal = ({ isOpen, onClose, points, onUsePoints }) => {
             Are you sure you want to use {selectedReward.cost} points for a{' '}
             {selectedReward.name}?
           </p>
-          <button onClick={handleConfirmUse}>Yes</button>
           <button onClick={handleClose}>Cancel</button>
+          <button onClick={handleConfirmUse}>Yes</button>
         </div>
       )}
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
