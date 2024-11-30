@@ -126,8 +126,8 @@ const App = () => {
       {uid ? (
         <>
           <h1>
-            <span class="emoji">⚽️</span> POINT CHART{' '}
-            <span class="emoji">⚽️</span>
+            <span className="emoji">⚽️</span> POINT CHART{' '}
+            <span className="emoji">⚽️</span>
           </h1>
           <Rewards points={count} onUsePointsClick={openUsePointsModal} />
           <CalendarScoreInput count={count} uid={uid} />
