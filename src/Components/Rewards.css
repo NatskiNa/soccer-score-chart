@@ -14,7 +14,8 @@
 
 .rewards-section p {
   font-size: 14px;
-  color: midnightblue;
+  font-weight: bold;
+  color: tomato;
 }
 
 .usePoints-btn {

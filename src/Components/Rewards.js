@@ -4,7 +4,6 @@ import './Rewards.css';
 const Rewards = ({ points, onUsePointsClick }) => {
   let rewardMessage = '';
 
-  // デバッグ用にpointsの値を出力
   console.log('Current points in Rewards:', points);
 
   if (points >= 20) {
