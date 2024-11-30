@@ -1,7 +1,7 @@
 .rewards-section {
   margin-top: 25px;
   text-align: center;
-  background-color: #ddd;
+  background-color: #bddce9;
   border-radius: 10px;
   padding: 5px 15px 25px 15px;
 }
@@ -43,18 +43,18 @@
   }
 
   .rewards-section h2 {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .rewards-section p {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .usePoints-btn {
     border-radius: 30px;
     width: 220px;
     padding: 15px;
-    font-size: 16px;
+    font-size: 18px;
     margin-top: 10px;
   }
 }

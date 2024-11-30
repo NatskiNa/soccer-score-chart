@@ -70,4 +70,7 @@
 }
 
 @media (min-width: 769px) {
+  .grade-modal {
+    width: 40%;
+  }
 }

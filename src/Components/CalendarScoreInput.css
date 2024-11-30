@@ -98,13 +98,6 @@
   transform: scale(1.07);
 }
 
-h3 {
-  margin-top: 10px;
-  font-size: 20px;
-  color: black;
-  margin-bottom: 10px;
-}
-
 @media (min-width: 769px) {
   .react-calendar__tile {
     height: 110px;
@@ -114,6 +107,17 @@ h3 {
     border-radius: 30px;
     width: 220px;
     padding: 15px;
-    font-size: 16px;
+    font-size: 18px;
+  }
+
+  .calendar-section h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .points-display h3 {
+    font-size: 24px;
+    color: whitesmoke;
+    margin-bottom: 10px;
   }
 }

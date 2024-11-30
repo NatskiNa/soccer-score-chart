@@ -65,4 +65,7 @@
 }
 
 @media (min-width: 769px) {
+  .history-modal {
+    width: 40%;
+  }
 }

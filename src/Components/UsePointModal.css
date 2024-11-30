@@ -80,4 +80,7 @@
 }
 
 @media (min-width: 769px) {
+  .reward-modal {
+    width: 40%;
+  }
 }
